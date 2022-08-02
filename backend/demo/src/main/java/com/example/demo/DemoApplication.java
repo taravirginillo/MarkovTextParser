@@ -24,7 +24,7 @@ public class DemoApplication {
         Environment env = SpringApplication.run(DemoApplication.class, args).getEnvironment();
 
         log.info("\n----------------------------------------------------------\n\t" +
-                "Application is running! Access URL:\n" +
+                "Application is running! Access URL:\n\t" +
                 "Local: http://localhost:{}\n"+
                 "\n----------------------------------------------------------\n\t",
                 env.getProperty("server.port"));
