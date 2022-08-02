@@ -26,17 +26,20 @@ public class TextResource {
      * @return (String) the parsed text
      */
     @PutMapping("/text")
-    public ResponseEntity<String> parseText(@RequestParam String text, @RequestParam int prefixSize){
+    public ResponseEntity<String> parseText(@RequestParam String text, @RequestParam int prefixSize, @RequestParam(defaultValue = "10") int maxOutputSize){
         String[] words = text.split("\\s+");
-        if(prefixSize >= words.length){
-            return ResponseEntity.badRequest().body("prefixSize cannot be larger than text");
+        if(prefixSize > words.length || prefixSize < 1){
+            return ResponseEntity.badRequest().body("prefixSize must be greater than 0 and less than text length");
+        }
+        if(maxOutputSize < prefixSize || maxOutputSize < 1){
+            return ResponseEntity.badRequest().body("maxOutputSize must be larger than prefixSize");
         }
 
-        return ResponseEntity.ok().body(performMarkov(words, prefixSize));
+        return ResponseEntity.ok().body(performMarkov(words, prefixSize, maxOutputSize));
     }
 
-    private static String performMarkov(String[] words, int prefixSize){
-        Map<String, List<String>> dictOfSuffixes = new HashMap<String, List<String>>();
+    private static String performMarkov(String[] words, int prefixSize, int maxOutputSize){
+        Map<String, List<String>> dictOfSuffixes = new HashMap<>();
 
         // Creating a hashmap with key = prefix and value = suffix
         for(int i=0; i < words.length - prefixSize; i++){
@@ -49,12 +52,13 @@ public class TextResource {
             if(dictOfSuffixes.containsKey(prefix)){
                 dictOfSuffixes.get(prefix).add(suffix);
             } else {
-                dictOfSuffixes.put(prefix, new ArrayList<String>() {{add(suffix);}});
+                dictOfSuffixes.put(prefix, new ArrayList<>() {{add(suffix);}});
             }
         }
 
         // We now empty the hashmap at random to produce our parsed text
         StringBuilder outputText = new StringBuilder("");
+        int outputTextLength = 0;
         List keys = new ArrayList(dictOfSuffixes.keySet());
         Collections.shuffle(keys);
         for(Object prefix : keys){
@@ -62,7 +66,11 @@ public class TextResource {
 
             // Do not include prefix with no suffix (end of words array)
             if(nextSuffixes.size() > 0 && !nextSuffixes.get(0).equals("")){
+                if(outputTextLength + prefixSize + 1 > maxOutputSize){
+                    return outputText.toString();
+                }
                 outputText.append(prefix).append(" ").append(nextSuffixes.get(0)).append(" ");
+                outputTextLength = outputTextLength + prefixSize + 1; // suffix size is always 1
             }
         }
         return outputText.toString();
