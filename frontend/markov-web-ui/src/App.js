@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import logo from './logo.svg';
-
 import './App.css';
 
 class App extends Component {
@@ -45,8 +43,7 @@ class App extends Component {
     e.preventDefault()
     const reader = new FileReader()
     reader.onload = async (e) => { 
-        const text = (e.target.result)
-        text = text.length >= 2147483647 ? text.substring(0, 2147483645) : text; // 2147483647 is max length of string in java
+        const text = (e.target.result).length >= 2147483647 ? (e.target.result).substring(0, 2147483645) : (e.target.result); // 2147483647 is max length of string in java
         this.setState({ post: text })
       };
     reader.readAsText(e.target.files[0])
@@ -65,6 +62,7 @@ render() {
           <input type="file"
             accept='.txt'
             style={{fontSize: '1rem'}}
+            onclick="this.value=null;"
             onChange={e => this.readFile(e)} />
           <input
             type="text"
