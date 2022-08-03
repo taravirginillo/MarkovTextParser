@@ -35,7 +35,9 @@ There are two components to this project: a backend server and a web UI.
 - JDK 17.0.4
 
 #### To run the backend server:
-Open a command line terminal and navigate to the backend/demo folder. Run the command: 
+Open a command line terminal and navigate to the backend/demo folder. Run the commands to clean & run the backend server: 
+
+> ./gradlew clean
 
 > ./gradlew bootRun
 
