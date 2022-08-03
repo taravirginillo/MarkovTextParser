@@ -42,11 +42,11 @@ class App extends Component {
   };
 
   readFile = async e => {
-    var preview = document.getElementById('show-text');
     e.preventDefault()
     const reader = new FileReader()
     reader.onload = async (e) => { 
         const text = (e.target.result)
+        text = text.length >= 2147483647 ? text.substring(0, 2147483645) : text; // 2147483647 is max length of string in java
         this.setState({ post: text })
       };
     reader.readAsText(e.target.files[0])
@@ -68,6 +68,7 @@ render() {
             onChange={e => this.readFile(e)} />
           <input
             type="text"
+            maxLength={2147483646}
             style={{fontSize: '1rem'}}
             value={this.state.post}
             onChange={e => this.setState({ post: e.target.value })}
