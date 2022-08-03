@@ -67,5 +67,7 @@ This should open up a web browser at port 3000.
 - We are going to assume all words are separated by spaces.
 
 ## To Dos
-- Add an Iterable<String> or a String[] to parse the text file into chunks.
+- Add an Iterable<String> or a String[] to parse the text file into chunks, allowing for larger text files.
 - Add caching to store prefixes/suffixes.
+- Give the user the ability to choose suffixes. Right now, we are only using the first suffix found. An option would be to create a parameter `String[] ignoreSuffixes` or `String[] ignorePrefixes` that we use to ignore certain words when identifying suffixes or prefixes, respectively. Similarly, you could include a `String[] suffixDictionary` or `String[] prefixDictionary` such that only prefixes and/or suffixes in this dictionary can be output.
+- We could train the model by identifying incorrect suffixes or prefixes. For example, we don't like having a verb as the first word in a prefix (since the prefix always comes at the beginning of the sentence). To do so, I might create a table called IgnorePrefix that stores each word that is input by the user in the `String[] ignorePrefixes` parameter. The more the model is used, the more optimized it would be. Another option for this example would be to use a third-party API such as WordNet to identify prefixes that start with verbs and exclude them from our table.
