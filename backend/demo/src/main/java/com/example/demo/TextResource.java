@@ -3,10 +3,7 @@ package com.example.demo;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -14,8 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
 @RestController
 public class TextResource {
 
-    @GetMapping("/")
+    @GetMapping("/hello")
     public String index() {
+        System.out.println("returning hello world");
         return "Hello World!";
     }
 
@@ -26,12 +24,15 @@ public class TextResource {
      * @return (String) the parsed text
      */
     @PutMapping("/text")
-    public ResponseEntity<String> parseText(@RequestParam String text, @RequestParam int prefixSize, @RequestParam(defaultValue = "10") int maxOutputSize){
+    public ResponseEntity<String> parseText(@RequestBody String text, @RequestParam int prefixSize, @RequestParam(defaultValue = "10") int maxOutputSize){
+        System.out.println("hi");
         String[] words = text.split("\\s+");
         if(prefixSize > words.length || prefixSize < 1){
             return ResponseEntity.badRequest().body("prefixSize must be greater than 0 and less than text length");
+        } else if(prefixSize == words.length){
+            return ResponseEntity.ok().body(text);
         }
-        if(maxOutputSize < prefixSize || maxOutputSize < 1){
+        if(maxOutputSize <= prefixSize || maxOutputSize < 1){
             return ResponseEntity.badRequest().body("maxOutputSize must be larger than prefixSize");
         }
 
