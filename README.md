@@ -56,16 +56,16 @@ Open a command line terminal and navigate to the frontend/markov-web-ui folder. 
 
   `cd ./markov-web-ui`
 
-  `npm run full-install`
+  `npm install`
 
   `npm start`
 
 This should open up a web browser at port 3000. 
 
-## Assumptions of File:
+## Assumptions of File
 - The file is within 0 and 2147483647 characters (the String limit in Java). With more time, an Iterable<String> or a String[] could be used to parse a longer text file through chunks.
 - We are going to assume all words are separated by spaces.
 
-## To Dos:
+## To Dos
 - Add an Iterable<String> or a String[] to parse the text file into chunks.
 - Add caching to store prefixes/suffixes.
