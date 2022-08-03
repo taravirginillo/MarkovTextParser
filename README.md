@@ -37,11 +37,11 @@ There are two components to this project: a backend server and a web UI.
 #### To run the backend server:
 Open a command line terminal and navigate to the backend/demo folder. Run the commands to clean & run the backend server: 
 
-> cd ./demo
+  `cd ./demo`
 
-> ./gradlew clean
+  `./gradlew clean`
 
-> ./gradlew bootRun
+  `./gradlew bootRun`
 
 Your server will run on local port 9000. You will see an "Application is Running" if your server started successfully.
 You will run into an error if this port is already being used.
@@ -54,11 +54,11 @@ You will run into an error if this port is already being used.
 
 Open a command line terminal and navigate to the frontend/markov-web-ui folder. Run the command:
 
-> cd ./markov-web-ui
+  `cd ./markov-web-ui`
 
-> npm run full-install
+  `npm run full-install`
 
-> npm start
+  `npm start`
 
 This should open up a web browser at port 3000. 
 
