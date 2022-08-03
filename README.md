@@ -37,6 +37,8 @@ There are two components to this project: a backend server and a web UI.
 #### To run the backend server:
 Open a command line terminal and navigate to the backend/demo folder. Run the commands to clean & run the backend server: 
 
+> cd ./demo
+
 > ./gradlew clean
 
 > ./gradlew bootRun
@@ -52,6 +54,10 @@ You will run into an error if this port is already being used.
 
 Open a command line terminal and navigate to the frontend/markov-web-ui folder. Run the command:
 
+> cd ./markov-web-ui
+
+> npm run full-install
+
 > npm start
 
 This should open up a web browser at port 3000. 
@@ -59,3 +65,7 @@ This should open up a web browser at port 3000.
 ## Assumptions of File:
 - The file is within 0 and 2147483647 characters (the String limit in Java). With more time, an Iterable<String> or a String[] could be used to parse a longer text file through chunks.
 - We are going to assume all words are separated by spaces.
+
+## To Dos:
+- Add an Iterable<String> or a String[] to parse the text file into chunks.
+- Add caching to store prefixes/suffixes.
