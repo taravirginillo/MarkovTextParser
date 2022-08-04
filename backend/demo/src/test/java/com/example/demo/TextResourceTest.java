@@ -118,6 +118,7 @@ public class TextResourceTest {
         assertEquals(2,words.length);
     }
 
+    @Test
     public void maxOutputSizeEqualPrefixSizeShouldReturn400() throws Exception {
         String fileName = "test.txt";
         MockMultipartFile sampleFile = new MockMultipartFile(
@@ -155,9 +156,5 @@ public class TextResourceTest {
         mockMvc.perform(multipartRequest.file(sampleFile))
                 .andExpect(status().isBadRequest());
 
-    }
-
-    private String createURLWithPort(String uri) {
-        return "http://localhost:" + port + uri;
     }
 }
