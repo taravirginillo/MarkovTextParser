@@ -139,7 +139,7 @@ public class TextResourceTest {
                 HttpMethod.PUT, entity, String.class);
 
         MediaType mimeType = response.getHeaders().getContentType();
-        assertEquals( MediaType.TEXT_PLAIN, mimeType );
+        assertEquals( MediaType.valueOf("text/plain;charset=UTF-8"), mimeType );
     }
 
     private String createURLWithPort(String uri) {

@@ -18,6 +18,10 @@ public class TextResource {
 
     }
 
+    /**
+     * Get Mapping used to test the server and say hello.
+     * @return "Hello World!"
+     */
     @GetMapping("/hello")
     public String index() {
         System.out.println("returning hello world");
@@ -25,25 +29,28 @@ public class TextResource {
     }
 
     /**
-     * Parses text string based on prefixes to
-     * @param prefixSize, the number of words required in each prefix
-     * @param text, the text to parse
-     * @return (String) the parsed text
+     * Parses an input text via a markov chain algorithm.
+     * @param prefixSize, the number of words required in each sentence prefix
+     * @param maxOutputSize, the maximum number of words to return
+     * @requestBody text
+     * @return A markov-chain parsed text of maximum size maxOutputSize.
      */
-    @PutMapping("/text")
+    @PutMapping(value="/text", produces = "text/plain")
     public ResponseEntity<String> parseText(@RequestBody String text, @RequestParam int prefixSize, @RequestParam(defaultValue = "10") int maxOutputSize){
-        System.out.println("hi");
+        // Assumption that each word is separated by a space.
         String[] words = text.split("\\s+");
+
         if(prefixSize > words.length || prefixSize < 1){
             return ResponseEntity.badRequest().body("prefixSize must be greater than 0 and less than text length");
-        } else if(prefixSize == words.length){
+        }
+        if(prefixSize == words.length){
             return ResponseEntity.ok().body(text);
         }
         if(maxOutputSize <= prefixSize || maxOutputSize < 1){
             return ResponseEntity.badRequest().body("maxOutputSize must be larger than prefixSize");
         }
 
-        return ResponseEntity.ok().body(textService.performMarkov(words, prefixSize, maxOutputSize));
+        return ResponseEntity.ok().body(textService.parseText(words, prefixSize, maxOutputSize));
     }
 
 }

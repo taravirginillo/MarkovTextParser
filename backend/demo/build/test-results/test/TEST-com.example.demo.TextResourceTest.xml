@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.demo.TextResourceTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2022-08-04T03:07:21" hostname="DESKTOP-2P8JLCI" time="0.746">
+  <properties/>
+  <testcase name="maxOutputSizeLessThanPrefixSizeThen400IsReceived()" classname="com.example.demo.TextResourceTest" time="0.297"/>
+  <testcase name="nullMaxOutputSizeThen200IsReceived()" classname="com.example.demo.TextResourceTest" time="0.029"/>
+  <testcase name="nullTextThen400BadRequestReturned()" classname="com.example.demo.TextResourceTest" time="0.184"/>
+  <testcase name="prefixSizeEqualTextLengthThen200InputTextReturned()" classname="com.example.demo.TextResourceTest" time="0.022"/>
+  <testcase name="givenRequestWithNoAcceptHeader_whenRequestIsExecuted_thenDefaultResponseContentTypeIsTextPlain()" classname="com.example.demo.TextResourceTest" time="0.015"/>
+  <testcase name="prefixLessThanTextLessThanMaxOutputThen200Returned()" classname="com.example.demo.TextResourceTest" time="0.013"/>
+  <testcase name="nullPrefixSizeThen400IsReceived()" classname="com.example.demo.TextResourceTest" time="0.022"/>
+  <testcase name="greetingShouldReturnDefaultMessage()" classname="com.example.demo.TextResourceTest" time="0.022"/>
+  <testcase name="prefixSizeLargerThanTextSizeThen400IsReceived()" classname="com.example.demo.TextResourceTest" time="0.019"/>
+  <testcase name="maxOutputSizeEqualToPrefixSizeThen400IsReceived()" classname="com.example.demo.TextResourceTest" time="0.019"/>
+  <system-out><![CDATA[2022-08-03 20:07:18.758  INFO 26884 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.demo.TextResourceTest], using SpringBootContextLoader
+2022-08-03 20:07:18.762  INFO 26884 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.example.demo.TextResourceTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-08-03 20:07:18.774  INFO 26884 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-08-03 20:07:18.776  INFO 26884 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@7d7ceca8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@2bba35ef, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@26c7b1c6, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@19526f1d, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3d1c933, org.springframework.test.context.support.DirtiesContextTestExecutionListener@79be91eb, org.springframework.test.context.event.EventPublishingTestExecutionListener@626c569b, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@684ce74c, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@65593327, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@68e5c7ae, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@68bd8ca7, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@6744707b, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@4b28a7bf]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.2)
+
+2022-08-03 20:07:18.931  INFO 26884 --- [    Test worker] com.example.demo.TextResourceTest        : Starting TextResourceTest using Java 17.0.2 on DESKTOP-2P8JLCI with PID 26884 (started by tarav in C:\Users\tarav\Dropbox\Apps\animal_logic\backend\demo)
+2022-08-03 20:07:18.931  INFO 26884 --- [    Test worker] com.example.demo.TextResourceTest        : No active profile set, falling back to 1 default profile: "default"
+2022-08-03 20:07:19.952  INFO 26884 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9000 (http)
+2022-08-03 20:07:19.979  INFO 26884 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-08-03 20:07:19.980  INFO 26884 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2022-08-03 20:07:20.242  INFO 26884 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-08-03 20:07:20.243  INFO 26884 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1306 ms
+2022-08-03 20:07:21.132  INFO 26884 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9000 (http) with context path ''
+2022-08-03 20:07:21.147  INFO 26884 --- [    Test worker] com.example.demo.TextResourceTest        : Started TextResourceTest in 2.32 seconds (JVM running for 8.736)
+2022-08-03 20:07:21.358  INFO 26884 --- [nio-9000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-08-03 20:07:21.358  INFO 26884 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-08-03 20:07:21.359  INFO 26884 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-08-03 20:07:21.520  WARN 26884 --- [nio-9000-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.springframework.http.ResponseEntity<java.lang.String> com.example.demo.TextResource.parseText(java.lang.String,int,int)]
+{"timestamp":"2022-08-04T03:07:21.540+00:00","status":400,"error":"Bad Request","path":"/text"}
+this is the test
+is the the test 
+2022-08-03 20:07:21.802  WARN 26884 --- [nio-9000-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'prefixSize' for method parameter type int is not present]
+returning hello world
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
