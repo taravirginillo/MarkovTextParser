@@ -46,6 +46,11 @@ Open a command line terminal and navigate to the backend/demo folder. Run the co
 Your server will run on local port 9000. You will see an "Application is Running" if your server started successfully.
 You will run into an error if this port is already being used.
 
+#### To run the test suite:
+ `cd ./demo`
+ 
+ `./gradlew test`
+
 ### Web UI Requirements
 - Node v14.15.4
 - npm >= 5.6
