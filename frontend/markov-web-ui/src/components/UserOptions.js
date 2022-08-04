@@ -4,7 +4,7 @@ import {SubmitButton} from "./SubmitButton";
 import {ResetButton} from "./ResetButton";
 import {handleSubmit} from "../utils/HandleSubmit";
 
-export function UserOptions(props) {
+export function UserOptions({setTextFile}) {
     // const [prefixSize, setPrefixSize] = useState(1);
     // const [maxOutputSize, setMaxOutputSize] = useState(10);
     // const [rawFile, setRawFile] = useState(null);
@@ -13,6 +13,7 @@ export function UserOptions(props) {
     const defaultValue = {prefixSize: 1, maxOutputSize: 10}
 
     const [value, setValue] = useState(defaultValue);
+    const isSubmitButtonEnabled = value.file != null;
 
     return (
         <Box fill={"horizontal"} pad="small">
@@ -24,7 +25,7 @@ export function UserOptions(props) {
                     return handleSubmit({
                         prefixSize: value.prefixSize,
                         maxOutputSize: value.maxOutputSize
-                    }, value.file, (data) => console.log("setter", data))
+                    }, value.file, setTextFile)
                 }}
             >
                 <FormField name="prefixSize" label="Prefix Size">
@@ -42,7 +43,7 @@ export function UserOptions(props) {
                 </FormField>
 
                 <Box direction="row" justify={"around"}>
-                    <SubmitButton/>
+                    <SubmitButton isSubmitButtonEnabled={isSubmitButtonEnabled}/>
                     <ResetButton/>
                 </Box>
 

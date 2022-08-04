@@ -18,8 +18,8 @@ const AppInnards = () => {
         >
             <Title/>
             <Box direction="row">
-                <UserOptions/>
-                <TextDisplay/>
+                <UserOptions setTextFile={setTextFile}/>
+                <TextDisplay textFile={textFile}/>
             </Box>
         </Box>
     );

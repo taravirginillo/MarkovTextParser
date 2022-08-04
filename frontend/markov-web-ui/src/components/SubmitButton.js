@@ -1,5 +1,5 @@
 import {Button} from "grommet";
 
-export const SubmitButton = () => {
-    return <Button primary type="submit" label="Submit"/>;
+export const SubmitButton = ({isSubmitButtonEnabled}) => {
+    return <Button primary type="submit" label="Submit" disabled = {!isSubmitButtonEnabled}/>;
 };
