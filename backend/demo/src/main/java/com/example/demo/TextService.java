@@ -1,76 +1,92 @@
 package com.example.demo;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.util.*;
 
 @Service
 public class TextService {
+
     /**
-     * Performs a Markov Chain algorithm on a list of words (String[]) by identifying prefixes
-     * and suffixes and returning a randomized combination of said prefixes/suffixes.
-     *
-     * @param words, an array of Strings to parse
-     * @param prefixSize, the number of words in each prefix
-     * @param maxOutputSize, the maximum number of words in the output String
-     * @return String, a sentence parsed by the markov algorithm
+     * Parses text file and performs Markov chain algorithm.
+     * @param incomingTextDTO
+     * @return String parsed output sentence
      */
-    public static String parseText(String[] words, int prefixSize, int maxOutputSize){
+    public static String parseTextFileUsingMarkov(MultipartFile file, IncomingTextParametersDTO incomingTextDTO) throws IOException {
+        Map<String, List<String>> dictOfSuffixes = new HashMap<>();
 
-        Map<String, List<String>> dictOfSuffixes = buildMarkovMap(words, prefixSize);
+        String line;
+        InputStream is = file.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        while ((line = br.readLine()) != null) {
+            buildMarkovMap(dictOfSuffixes, line, incomingTextDTO.getPrefixSize());
+        }
+        return randomizePrefixesAndReturn(dictOfSuffixes, incomingTextDTO.getPrefixSize(), incomingTextDTO.getMaxOutputSize());
+    }
 
+
+    /**
+     * Used to build the markov chain algorithm map.
+     * @param dictOfSuffixes, a map to append prefix/suffix to
+     * @param text, String
+     * @param prefixSize the number of words in the prefix
+     * @return Map such that each key is a prefix and each value is a list of suffixes for said prefix.
+     */
+    private static Map<String, List<String>> buildMarkovMap(Map<String, List<String>> dictOfSuffixes, String text, int prefixSize){
+        String[] words = text.split("\\s+");
+
+        for(int indexOfArray=0; indexOfArray < words.length - prefixSize; indexOfArray++){
+
+            StringBuilder buildPrefix = new StringBuilder(words[indexOfArray]);
+            for(int nextPrefixIndex=indexOfArray+1; nextPrefixIndex < (prefixSize + indexOfArray); nextPrefixIndex++){
+                buildPrefix.append(" ").append(words[nextPrefixIndex]);
+            }
+
+            boolean isPrefixAtEndOfWordsArray = (indexOfArray + prefixSize) > words.length - 1;
+            if(!isPrefixAtEndOfWordsArray) {
+                String suffix = words[indexOfArray + prefixSize];
+                if (dictOfSuffixes.containsKey(buildPrefix.toString())) {
+                    dictOfSuffixes.get(buildPrefix.toString()).add(suffix);
+                } else {
+                    dictOfSuffixes.put(buildPrefix.toString(), new ArrayList<>() {{
+                        add(suffix);
+                    }});
+                }
+            }
+        }
+        return dictOfSuffixes;
+    }
+
+    /**
+     * Randomizes a collection of prefixes & their suffixes and outputs a string
+     * with a randomized order of prefixes & their suffixes.
+     * @param dictOfSuffixes
+     * @param prefixSize
+     * @param maxOutputSize
+     * @return String of randomized prefixes & suffixes
+     */
+    private static String randomizePrefixesAndReturn(Map<String, List<String>> dictOfSuffixes, int prefixSize, int maxOutputSize){
         StringBuilder outputText = new StringBuilder("");
         int outputTextLength = 0;
+        int suffixSize = 1;
 
-        // Shuffle all prefixes in hashmap
-        List keys = new ArrayList(dictOfSuffixes.keySet());
-        Collections.shuffle(keys);
+        List prefixKeys = new ArrayList(dictOfSuffixes.keySet());
+        Collections.shuffle(prefixKeys);
 
-        // Output prefixes & suffixes to our outputText until we reach maxOutputLength
-        for(Object prefix : keys){
+        for(Object prefix : prefixKeys){
             List<String> nextSuffixes = dictOfSuffixes.get(prefix);
-
-            // Do not include prefix with no suffix (end of words array)
-            if(nextSuffixes.size() > 0 && !nextSuffixes.get(0).equals("")){
-                // suffixSize is always 1
-                if(outputTextLength + prefixSize + 1 > maxOutputSize){
+            int outputLengthWithAdditionalPrefixSuffix = outputTextLength + prefixSize + suffixSize;
+            if(nextSuffixes.size() > 0){
+                if(outputLengthWithAdditionalPrefixSuffix > maxOutputSize){
                     return outputText.toString();
                 }
 
                 outputText.append(prefix).append(" ").append(nextSuffixes.get(0)).append(" ");
-                outputTextLength = outputTextLength + prefixSize + 1; // suffix size is always 1
+                outputTextLength = outputLengthWithAdditionalPrefixSuffix;
             }
         }
         return outputText.toString();
-    }
-
-    /**
-     * Used to build the markov chain algorithm map.
-     * @param words a String array
-     * @param prefixSize the number of words in the prefix
-     * @return Map such that each key is a prefix and each value is a list of suffixes for said prefix.
-     */
-    private static Map<String, List<String>> buildMarkovMap(String[] words, int prefixSize){
-        Map<String, List<String>> dictOfSuffixes = new HashMap<>();
-
-        // Creating a hashmap with key = prefix and value = suffix
-        for(int i=0; i < words.length - prefixSize; i++){
-
-            // Building prefix based on prefixSize
-            String prefix = words[i];
-            for(int j=i+1; j < (prefixSize + i); j++){
-                prefix = prefix + " " + words[j];
-            }
-
-            // Suffix is "" if we have hit the end of the array.
-            String suffix = (i + prefixSize) < words.length ? words[i + prefixSize] : "";
-
-            if(dictOfSuffixes.containsKey(prefix)){
-                dictOfSuffixes.get(prefix).add(suffix);
-            } else {
-                dictOfSuffixes.put(prefix, new ArrayList<>() {{add(suffix);}});
-            }
-        }
-        return dictOfSuffixes;
     }
 }
