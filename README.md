@@ -41,9 +41,9 @@ There are two components to this project: a backend server and a web UI.
 - JDK 17.0.4
 
 #### To run the backend server:
-Open a command line terminal and navigate to the backend/demo folder. Run the commands to clean & run the backend server: 
+Open a command line terminal and navigate to the root project directory. Run the commands to clean & run the backend server: 
 
-  `cd ./demo`
+  `cd backend/demo`
 
   `./gradlew clean`
 
@@ -53,7 +53,7 @@ Your server will run on local port 9000. You will see an "Application is Running
 You will run into an error if this port is already being used.
 
 #### To run the test suite:
- `cd ./demo`
+ `cd backend/demo`
  
  `./gradlew test`
 
@@ -63,9 +63,9 @@ You will run into an error if this port is already being used.
 
 #### To run the web ui:
 
-Open a command line terminal and navigate to the frontend/markov-web-ui folder. Run the command:
+Open a command line terminal and navigate to the root project directory. Run the command:
 
-  `cd ./markov-web-ui`
+  `cd frontend/markov-web-ui`
 
   `npm install`
 
