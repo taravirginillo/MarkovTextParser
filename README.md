@@ -28,7 +28,7 @@ So, at random, our output of size 10 might be
 
 ## Constraints and Assumptions
 - The prefix size must be between 1 and 1000. The maximum output size must be between 1 and 1000.
-- The maximum file size is 1GB.
+- The maximum file size is MGB.
 - We are going to assume all words are separated by spaces.
 - If we get to the end of the array and there is no suffix for the prefix, we ignore the prefix.
 
@@ -49,7 +49,7 @@ Open a command line terminal and navigate to the backend/demo folder. Run the co
 
   `./gradlew bootRun`
 
-Your server will run on local port 9000. You will see an "Application is Running" if your server started successfully.
+Your server will run on local port 9000. You will see an "Application is Running" in your terminal f your server started successfully.
 You will run into an error if this port is already being used.
 
 #### To run the test suite:
