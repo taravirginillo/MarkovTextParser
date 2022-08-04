@@ -110,25 +110,6 @@ public class TextResourceTest {
     }
 
     @Test
-    public void testFileSizeTooLargeReturn500() throws Exception {
-        String fileName = "test.txt";
-        MockMultipartFile sampleFile = new MockMultipartFile(
-                "file",
-                fileName,
-                "text/plain",
-                "she sells sea shells ".repeat(10000).getBytes()
-        );
-
-        MockMultipartHttpServletRequestBuilder multipartRequest =
-                MockMvcRequestBuilders.multipart("/text");
-
-         mockMvc.perform(multipartRequest.file(sampleFile)
-                        .param("prefixSize","2"))
-                .andExpect(status().isBadRequest());
-
-    }
-
-    @Test
     public void maxOutputSizeEqualPrefixSizeShouldReturn400() throws Exception {
         String fileName = "test.txt";
         MockMultipartFile sampleFile = new MockMultipartFile(
