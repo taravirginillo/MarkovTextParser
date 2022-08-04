@@ -27,12 +27,16 @@ class App extends Component {
   
   handleSubmit = async e => {
     e.preventDefault();
-    const response = await fetch(`/text?prefixSize=${this.state.prefixSize >= 0 ? encodeURIComponent(this.state.prefixSize) : 1}&maxOutputSize=${this.state.maxOutputSize >= 0 ? encodeURIComponent(this.state.maxOutputSize) : 10}`, {
+    const response = await fetch('text', {
       method: 'PUT',
       headers: {
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
       },
-      body: this.state.post});
+      body: {
+        'text':this.state.post,
+        'prefixSize':this.state.prefixSize,
+        'maxOutputSize':this.state.maxOutputSize
+      }});
     console.log(response);
     const body = await response.text();
     
@@ -43,7 +47,7 @@ class App extends Component {
     e.preventDefault()
     const reader = new FileReader()
     reader.onload = async (e) => { 
-        const text = (e.target.result).length >= 2147483647 ? (e.target.result).substring(0, 2147483645) : (e.target.result); // 2147483647 is max length of string in java
+        const text = (e.target.result).length >= 4000 ? (e.target.result).substring(0, 4000) : (e.target.result); // 4000 is max length according to endpoint
         this.setState({ post: text })
       };
     reader.readAsText(e.target.files[0])
@@ -66,7 +70,7 @@ render() {
             onChange={e => this.readFile(e)} />
           <input
             type="text"
-            maxLength={2147483646}
+            maxLength={4000}
             style={{fontSize: '1rem'}}
             value={this.state.post}
             onChange={e => this.setState({ post: e.target.value })}
