@@ -40,20 +40,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class TextResourceTest {
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
     MockMvc mockMvc;
 
     @Value("${app.document-root}")
     String documentRoot;
-
-    TestRestTemplate restTemplate = new TestRestTemplate();
-
-    HttpHeaders headers = new HttpHeaders();
-
-    List<Path> filesToBeDeleted = new ArrayList<>();
 
     @Test
     public void test_handleFileUpload() throws Exception {
@@ -97,6 +88,26 @@ public class TextResourceTest {
     }
 
     @Test
+    public void testPrefixSizeLargerThanTextSizeShouldReturnEmpty() throws Exception {
+        String fileName = "test.txt";
+        MockMultipartFile sampleFile = new MockMultipartFile(
+                "file",
+                fileName,
+                "text/plain",
+                "she sells".getBytes()
+        );
+
+        MockMultipartHttpServletRequestBuilder multipartRequest =
+                MockMvcRequestBuilders.multipart("/text");
+
+        MvcResult mvcResult = mockMvc.perform(multipartRequest.file(sampleFile)
+                        .param("prefixSize","4"))
+                .andExpect(status().isOk()).andReturn();
+
+        assertEquals("",mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
     public void maxOutputSizeIsMaxContentAndReturns200() throws Exception {
         String fileName = "test.txt";
         MockMultipartFile sampleFile = new MockMultipartFile(
@@ -116,6 +127,25 @@ public class TextResourceTest {
 
         String[] words = mvcResult.getResponse().getContentAsString().split("\\s+");
         assertEquals(2,words.length);
+    }
+
+    @Test
+    public void testFileSizeTooLargeReturn500() throws Exception {
+        String fileName = "test.txt";
+        MockMultipartFile sampleFile = new MockMultipartFile(
+                "file",
+                fileName,
+                "text/plain",
+                "she sells sea shells ".repeat(10000).getBytes()
+        );
+
+        MockMultipartHttpServletRequestBuilder multipartRequest =
+                MockMvcRequestBuilders.multipart("/text");
+
+         mockMvc.perform(multipartRequest.file(sampleFile)
+                        .param("prefixSize","2"))
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test

@@ -15,7 +15,7 @@ class DemoApplicationTests {
     private TextService textService;
 
     @Test
-    public void contextLoads() throws Exception {
+    public void contextLoads() {
         assertThat(textResource).isNotNull();
         assertThat(textService).isNotNull();
     }
