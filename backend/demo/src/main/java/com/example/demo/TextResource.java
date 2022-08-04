@@ -40,6 +40,9 @@ public class TextResource {
         if(file.isEmpty()){
             return ResponseEntity.badRequest().body("file cannot be empty");
         }
+        if(file.getSize() > 1000){
+            return ResponseEntity.badRequest().body("file size too large");
+        }
 
         boolean isFileTypeTextFile = file.getContentType().equals("text/plain");
         if(!isFileTypeTextFile){
