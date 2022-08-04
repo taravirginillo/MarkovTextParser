@@ -6,7 +6,7 @@ export const Title = () => {
     <Box direction="row" justify={"center"}>
       <PageHeader
         title="Markov Chain Parser"
-        subtitle="A subtitle for the page."
+        subtitle="A text parser by Tara Virginillo"
       />
     </Box>
   );
