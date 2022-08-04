@@ -46,74 +46,79 @@ public class TextResourceTest {
     }
 
     @Test
-    public void nullPrefixSizeThen400IsReceived() {
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> entity = new HttpEntity<>("she sells sea shells", headers);
+    public void nullPrefixSizeThenDefaultTo1And200IsReceived() {
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(
+                "{\"text\":\"this is\",\"maxOutputSize\":10}", headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?maxOutputSize=10"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("this is ", response.getBody());
     }
 
     @Test
     public void nullMaxOutputSizeThen200IsReceived() {
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> entity = new HttpEntity<>("she sells sea shells", headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(
+                "{\"text\":\"this is a test\",\"prefixSize\":2}", headers);
         Map<String, Integer> params = new HashMap<>();
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?prefixSize=2"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class, params);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void prefixSizeLargerThanTextSizeThen400IsReceived() {
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> entity = new HttpEntity<>("she sells sea shells", headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>("{\"text\":\"this is a test\",prefixSize\":10}", headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?prefixSize=10"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     public void maxOutputSizeLessThanPrefixSizeThen400IsReceived() {
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> entity = new HttpEntity<>("she sells sea shells", headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>("{\"text\":\"this is a test\",\"prefixSize\":3,\"maxOutputSize\":2}", headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?prefixSize=3&maxOutputSize=2"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     public void maxOutputSizeEqualToPrefixSizeThen400IsReceived() {
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> entity = new HttpEntity<>("she sells sea shells", headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(
+                "{\"text\":\"this is a test\",\"prefixSize\":2,\"maxOutputSize\":2}", headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?prefixSize=2&maxOutputSize=2"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     public void prefixSizeEqualTextLengthThen200InputTextReturned() {
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> entity = new HttpEntity<>("this is the test", headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>("{\"text\":\"this is a test\",\"prefixSize\":4,\"maxOutputSize\":5}", headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?prefixSize=4&maxOutputSize=5"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class);
         System.out.println(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("this is the test", response.getBody());
+        assertEquals("this is a test", response.getBody());
     }
 
     @Test
     public void prefixLessThanTextLessThanMaxOutputThen200Returned() {
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> entity = new HttpEntity<>("this is the test", headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(
+                "{\"text\":\"this is a test\",\"prefixSize\":1, \"maxOutputSize\":5}", headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?prefixSize=1&maxOutputSize=5"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class);
         System.out.println(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -121,10 +126,11 @@ public class TextResourceTest {
 
     @Test
     public void nullTextThen400BadRequestReturned() {
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(
+                "{\"maxOutputSize\":5,\"prefixSize\":1}", headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?prefixSize=1&maxOutputSize=5"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class);
         System.out.println(response.getBody());
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -133,13 +139,14 @@ public class TextResourceTest {
     @Test
     public void
     givenRequestWithNoAcceptHeader_whenRequestIsExecuted_thenDefaultResponseContentTypeIsTextPlain() {
-        HttpEntity<String> entity = new HttpEntity<>("this is a test", null);
+        HttpEntity<String> entity = new HttpEntity<>(
+                "{\"text\":\"this is a test\",\"prefixSize\":1}", null);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/text?prefixSize=1"),
+                createURLWithPort("/text"),
                 HttpMethod.PUT, entity, String.class);
 
         MediaType mimeType = response.getHeaders().getContentType();
-        assertEquals( MediaType.valueOf("text/plain;charset=UTF-8"), mimeType );
+        assertEquals( MediaType.APPLICATION_JSON, mimeType );
     }
 
     private String createURLWithPort(String uri) {

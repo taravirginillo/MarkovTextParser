@@ -30,23 +30,28 @@ public class TextResource {
 
     /**
      * Parses an input text via a markov chain algorithm.
-     * @param prefixSize, the number of words required in each sentence prefix
-     * @param maxOutputSize, the maximum number of words to return
-     * @requestBody text
+     * @param incomingTextDTO,  body of type IncomingTextDTO
      * @return A markov-chain parsed text of maximum size maxOutputSize.
      */
-    @PutMapping(value="/text", produces = "text/plain")
-    public ResponseEntity<String> parseText(@RequestBody String text, @RequestParam int prefixSize, @RequestParam(defaultValue = "10") int maxOutputSize){
-        // Assumption that each word is separated by a space.
-        String[] words = text.split("\\s+");
+    @PutMapping(value="/text", produces = "application/json")
+    public ResponseEntity<String> parseText(@RequestBody IncomingTextDTO incomingTextDTO){
 
-        if(prefixSize > words.length || prefixSize < 1){
+        if(incomingTextDTO.getText() == null){
+            return ResponseEntity.badRequest().body("text must not be null");
+
+        }
+        // Assumption that each word is separated by a space.
+        String[] words = incomingTextDTO.getText().split("\\s+");
+        int prefixSize = incomingTextDTO.getPrefixSize();
+        int maxOutputSize = incomingTextDTO.getMaxOutputSize();
+
+        if(prefixSize > words.length){
             return ResponseEntity.badRequest().body("prefixSize must be greater than 0 and less than text length");
         }
         if(prefixSize == words.length){
-            return ResponseEntity.ok().body(text);
+            return ResponseEntity.ok().body(incomingTextDTO.getText());
         }
-        if(maxOutputSize <= prefixSize || maxOutputSize < 1){
+        if(maxOutputSize <= prefixSize){
             return ResponseEntity.badRequest().body("maxOutputSize must be larger than prefixSize");
         }
 
