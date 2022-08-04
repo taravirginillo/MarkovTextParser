@@ -23,7 +23,7 @@ public class TextService {
         while ((line = br.readLine()) != null) {
             buildMarkovMap(dictOfSuffixes, line, incomingTextDTO.getPrefixSize());
         }
-        return randomizePrefixesAndReturn(dictOfSuffixes, incomingTextDTO.getPrefixSize(), incomingTextDTO.getMaxOutputSize());
+        return randomizePrefixesAndReturnOutputString(dictOfSuffixes, incomingTextDTO.getPrefixSize(), incomingTextDTO.getMaxOutputSize());
     }
 
 
@@ -67,7 +67,7 @@ public class TextService {
      * @param maxOutputSize
      * @return String of randomized prefixes & suffixes
      */
-    private static String randomizePrefixesAndReturn(Map<String, List<String>> dictOfSuffixes, int prefixSize, int maxOutputSize){
+    private static String randomizePrefixesAndReturnOutputString(Map<String, List<String>> dictOfSuffixes, int prefixSize, int maxOutputSize){
         StringBuilder outputText = new StringBuilder("");
         int outputTextLength = 0;
         int suffixSize = 1;

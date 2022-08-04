@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import javax.validation.constraints.Size;
-
 public class IncomingTextParametersDTO {
 
     private int prefixSize;

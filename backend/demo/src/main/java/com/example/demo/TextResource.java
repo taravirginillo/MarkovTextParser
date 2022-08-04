@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -9,10 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 @RestController
 @Validated
@@ -39,9 +35,6 @@ public class TextResource {
         IncomingTextParametersDTO incomingTextDTO = new IncomingTextParametersDTO(prefixSize, maxOutputSize);
         if(file.isEmpty()){
             return ResponseEntity.badRequest().body("file cannot be empty");
-        }
-        if(file.getSize() > 1000){
-            return ResponseEntity.badRequest().body("file size too large");
         }
 
         boolean isFileTypeTextFile = file.getContentType().equals("text/plain");
