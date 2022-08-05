@@ -2,7 +2,7 @@
 
 ## Description
 
-The purpose of this project is to design an easy-to-use text parser that takes an input text file and parses based on the Markov Chain Algorith. The project involves a Java Spring backend and a React Web UI. The server takes an input text file and transforms the contents using a Markov chain algorithm. A user can use the simple React web UI to input a text file. 
+The purpose of this project is to design an easy-to-use text parser that takes an input text file and parses based on the Markov Chain Algorithm. The project involves a Java Spring backend and a React Web UI. The server takes an input text file and transforms the contents using a Markov chain algorithm. A user can use the simple React web UI to input a text file. 
 
 The algorithm used to parse text works by splitting the text into prefixes and suffixes. A table is created with pairs of prefixes and suffixes from the text, and a randomized output is generated from this table. The user has the ability to change the prefix size (the number of words in the prefix) and the maximum output size (the number of words output). This gives the user the ability to tailor the output to his liking. I chose to pick a prefixSize and a maximumOutputSize rather than giving the user the ability to input a dictionary of prefixes because I believe the prefixSize enables the user to create proper sentences based on how many verbs, adverbs, nouns etc. are in the sentence. To train the model further, see the Todos section below. 
 
